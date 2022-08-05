@@ -1,0 +1,10 @@
+{
+  "hidden_dropout_prob": 0.1, 
+  "hidden_size": 1024, 
+  "intermediate_size": 128,
+  "num_hidden_layers": 2, 
+  "num_entities": 230023,
+  "num_labels": 2,
+  "alpha": 0.1,
+  "theta": 0.5
+}
