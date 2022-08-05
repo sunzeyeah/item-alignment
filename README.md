@@ -63,7 +63,7 @@
 - 交互方式(interaction type): 双塔(two tower)、单塔(one tower)
 - 分类方法(classification method): matrix projection(将2个商品的embedding或商品对embedding通过矩阵映射为2维向量，然后计算logits), vector similarity(计算2个商品的embedding向量，然后计算向量相似度)
 - 向量相似度度量(similarity measure): softmax, cosine, inner product, l1, l2
-- 损失函数(loss type): cross entropy loss, binary cross entropy loss, cosine embedding loss, hinge loss, ecclidean loss
+- 损失函数(loss type): cross entropy loss, binary cross entropy loss, cosine embedding loss, hinge loss, euclidean loss
 
 
 ### 5.1 文本模型
@@ -172,11 +172,8 @@ python finetune_text.py \
 ### 5.2 图像模型
 基于cv模型对商品对的图片进行建模。目前图像模型均为双塔(two tower)结构，即商品对两张图片分别计算image embedding，然后再计算向量相似度。
 
-#### 5.2.1 ViT
-[vision transformer](https://paperswithcode.com/paper/eca-net-efficient-channel-attention-for-deep) 通过将单张图片转换为sequence of patches，从而可以使用transformer模型对图片进行建模。
-
-<div align=center><img src="./pics/vit.png" style="zoom:100%;" />
-</div>
+#### 5.2.1 ResNetV2
+[ResNetV2](https://paperswithcode.com/method/inception-resnet-v2) 作为图像baseline模型
 
 训练代码：
 ```bash
@@ -185,18 +182,18 @@ python data_prepare.py \
   --data_dir $DATA_DIR \
   --output_dir $OUTPUT_DIR \
   --only_image \
-  --image_size 384
+  --image_size 800
     
-# ViT模型训练
+# ResNetV2模型训练
 python finetune_image.py \
   --data_dir $DATA_DIR \
   --output_dir $OUTPUT_DIR \
-  --model_name "vit_large_patch16_384" \
+  --model_name "resnetv2_50" \
   --data_version "v1" \
-  --config_file "vit_large_patch16_384.json" \
+  --config_file "resnetv2_50.json" \
   --do_train \
   --do_eval \
-  --image_size 384 \
+  --image_size 800 \
   --fp16
 ```
 
@@ -225,8 +222,11 @@ python finetune_image.py \
   --fp16
 ```
 
-#### 5.2.3 ResNetV2
-[ResNetV2](https://paperswithcode.com/method/inception-resnet-v2) 作为图像baseline模型 
+#### 5.2.3 ViT
+[vision transformer](https://paperswithcode.com/paper/eca-net-efficient-channel-attention-for-deep) 通过将单张图片转换为sequence of patches，从而可以使用transformer模型对图片进行建模。
+
+<div align=center><img src="./pics/vit.png" style="zoom:100%;" />
+</div>
 
 训练代码：
 ```bash
@@ -235,27 +235,28 @@ python data_prepare.py \
   --data_dir $DATA_DIR \
   --output_dir $OUTPUT_DIR \
   --only_image \
-  --image_size 800
+  --image_size 384
     
-# ResNetV2模型训练
+# ViT模型训练
 python finetune_image.py \
   --data_dir $DATA_DIR \
   --output_dir $OUTPUT_DIR \
-  --model_name "resnetv2_50" \
+  --model_name "vit_large_patch16_384" \
   --data_version "v1" \
-  --config_file "resnetv2_50.json" \
+  --config_file "vit_large_patch16_384.json" \
   --do_train \
   --do_eval \
-  --image_size 800 \
+  --image_size 384 \
   --fp16
 ```
+
 
 ### 5.3 图谱模型
 由于数据中有item_pvs和sku_pvs 2个字段，因此可构建为图数据，其中结点为商品、属性值，边为属性名称。基于图模型可计算node embedding，然后通过比较embedding相似度即可判断同款。图谱模型也均为双塔(two tower)结构。
 #### 5.3.1 GCN
 GCN通过有监督或无监督进行训练。本repo采用有监督的训练方式，监督值即为是否同款（因此训练没有覆盖全部结点，只对商品结点进行训练）
 
-其中，feature matrix定义为：商品结点的feature为title的text embedding (768维)，属性值结点的feature为属性值的text embedding (768维)
+其中，feature matrix的定义：商品结点的feature为title的text embedding (768维)，属性值结点的feature为属性值的text embedding (768维)
 
 训练代码：
 ```bash
@@ -349,7 +350,7 @@ python finetune_multimodal.py \
 #### 5.4.3 K3M
 [K3M](https://arxiv.org/abs/2109.00895) 通过对图像、文本、图谱3类模态进行预训练，然后可针对item alignment任务进行finetune。 
 
-<div align=center><img src="./pics/coca.png" style="zoom:100%;" />
+<div align=center><img src="./pics/k3m.png" style="zoom:100%;" />
 </div>
 
 具体代码见: https://github.com/sunzeyeah/K3M 
@@ -413,24 +414,25 @@ bash run_model_soup_multimodal.sh
 最终在测试集（复赛）中，f1=**0.8800**，排名第4
 
 #### 无效尝试
-- 交互方式：双塔(two tower)均明显差于单塔(one tower)，双塔的最优f1只能在0.80左右
-- 分类方法：matrix projection优于vector similarity，不管使用何种相似度度量方法
-- 文本模型：数据增强，使用训练好的模型对验证集进行预测，预测后的结果加入训练集
-- 文本模型：将pv对按照相对重要性进行排序（非频率）
-- 文本模型：增加辅助任务，对商品对中相同的属性key，判断其属性value是否相同
-- 文本模型：增加品类embedding
-- 文本模型：输入文本中加入品类(cate_name)和行业(industry_name)
-- 文本模型：对属性值进行标准化，如：不同值代表相同含义（xl和大码）则使用统一值
-- 文本模型：数据增强，增加easy负样本（即不同品类的商品对）
-- 文本模型：换用不同的roberta预训练模型文件，如：roberta_large_pair、macbert_large
-- 文本模型：增大max_position_embeddings，训练更长的sequence
-- 文本模型：训练更多的epoch(超过10个)
-- 文本模型：将最后4层的cls输出concat起来作为新的cls output
-- 多模态模型：roberta+image使用基于商品同款finetune后的图像模型生成image embedding
-- 多模态模型：roberta+image在输出层将cls embedding和image embedding concat然后matrix projection算logits
+- 交互方式：**双塔(two tower)** 均明显差于 **单塔(one tower)**，双塔的最优f1只能在0.80左右
+- 分类方法：**matrix projection** 优于 **vector similarity**，不管使用何种相似度度量方法
+- 文本模型：数据增强，**使用训练好的模型对验证集进行预测**，预测后的结果加入训练集
+- 文本模型：将pv对按照**相对重要性**进行排序（非频率）
+- 文本模型：增加辅助任务，**对商品对中相同的属性key，判断其属性value是否相同**
+- 文本模型：增加**品类embedding**
+- 文本模型：输入文本中加入**品类(cate_name)** 和 **行业(industry_name)**
+- 文本模型：对**属性值进行标准化**，如：不同值代表相同含义（xl和大码）则使用统一值
+- 文本模型：数据增强，增加**easy负样本**（即不同品类的商品对）
+- 文本模型：换用**不同的roberta预训练模型文件**，如：roberta_large_pair、macbert_large
+- 文本模型：增大max_position_embeddings，训练**更长的sequence**
+- 文本模型：训练**更多的epoch**(超过10个)
+- 文本模型：将**最后4层的cls输出concat**起来作为新的cls output
+- 多模态模型：roberta+image使用基于商品同款**finetune后**的图像模型生成image embedding
+- 多模态模型：roberta+image在**输出层**将cls embedding和image embedding concat然后matrix projection算logits
 - 多模态模型：k3m效果一般且代码复杂，预训练时三元组和图像loss的不降低；最终finetune后的f1=0.7635
-- 图像模型：先对原始图片进行object detection，使用框出有效商品后的图片训练模型
-- 图像模型：针对每个品类训练单独的图像模型
-- 模型融合：基于uniform soup的model soup
+- 图像模型：先对原始图片进行**object detection**，使用框出有效商品后的图片训练模型
+- 图像模型：针对**每个品类训练单独**的图像模型
+- 模型融合：基于**uniform soup**的model soup
+- 模型融合：**f1-based** 一般差于 **threshold-based**，且模型数量越多召回结果越少
 
 **PS**：上述“无效优化”指对单模型的效果无提升，各种尝试后的模型虽然效果不如最优单模型，但可以用在model ensemble中，继续提升整体效果。
