@@ -67,7 +67,36 @@
 
 
 ### 5.1 文本模型
-#### 5.1.1 RoBerta
+#### 5.1.1 TextCNN
+基于TextCNN模型对数据中的title、item_pvs、sku_pvs这3个文本字段进行建模，将每个商品的title和pv信息拼接为一条文本，通过TextCNN计算文本embedding，最后计算2个商品embedding的相似度。
+
+训练代码：
+```bash
+# 训练数据准备
+python data_prepare.py \
+  --data_dir $DATA_DIR \
+  --output_dir $OUTPUT_DIR
+  
+# TextCNN模型训练
+python finetune_text.py \
+  --data_dir $DATA_DIR \
+  --output_dir $OUTPUT_DIR \
+  --model_name "textcnn" \
+  --data_version "v1" \
+  --pretrained_model_path $PRETRAINED_MODEL_PATH \
+  --config_file "roberta_base.json" \
+  --do_train \
+  --do_eval \
+  --interaction_type "two_tower" \
+  --classification_method "cls" \
+  --similarity_measure "NA" \
+  --loss_type "ce" \
+  --max_seq_len 50 \
+  --max_seq_len_pv 205 \
+  --fp16
+```
+
+#### 5.1.2 RoBerta
 基于roberta模型对数据中的title、item_pvs、sku_pvs这3个文本字段进行建模，将商品对的title和pv信息拼接为一条文本，格式如下：
 
 ~~~
@@ -100,7 +129,7 @@ python finetune_text.py \
   --fp16
 ```
 
-#### 5.1.2 PKGM
+#### 5.1.3 PKGM
 Implementation of pretrained knowledge graph model
 **PKGM**, which is model proposed in a paper: **[Billion-scale Pre-trained E-commerce Product
 Knowledge Graph Model](https://arxiv.org/abs/2105.00388)**.
@@ -328,20 +357,33 @@ python finetune_multimodal.py \
 ### 5.5 Model Ensemble
 通过对上述4类模型进行融合，可进一步提升模型效果。具体融合策略可分为以下3类：
 
-- [threshold-based](https://www.kaggle.com/c/shopee-product-matching/discussion/238022)
+#### 5.5.1 [threshold-based](https://www.kaggle.com/c/shopee-product-matching/discussion/238022)
   1. 计算每个单模型的最优阈值
   2. 每个模型的预测值减去其对应的阈值，得到新的预测值
   3. 将全部模型的新预测值相加得到最终的预测值
-  4. 如果相加后的最终预测值>0，则预测为1；否则预测为0
-  
+  4. 如果相加后的最终预测值 > 0，则预测为1；否则预测为0
 
-- f1-based 
+```bash
+python model_ensemble.py \
+  --data_dir $DATA_DIR \
+  --ensemble_strategy "threshold" \
+  --split_by_valid_or_test
+```
+
+#### 5.5.2 f1-based 
   1. 计算各个单模型的最优f1
   2. 对每个sample，令score_0和score_1表示预测为0和1的得分。遍历所有候选模型，如果该模型预测为0，score_0加上该模型的f1；否则，score_1加上该模型的f1
   3. 每个sample的预测结果可计算为：如果score_0 > score_1，则预测为0；否则为1
 
+```bash
+python model_ensemble.py \
+  --data_dir $DATA_DIR \
+  --ensemble_strategy "f1" \
+  --split_by_valid_or_test
+```
 
-- [model soup](https://paperswithcode.com/paper/model-soups-averaging-weights-of-multiple) : 对单个模型（如：roberta）使用不同的超参（包括: 随机种子、学习率、dropout等）进行训练，然后将不同超参的模型参数进行融合，可进一步提升单模型的效果。
+#### 5.5.3 [model soup](https://paperswithcode.com/paper/model-soups-averaging-weights-of-multiple) 
+对单个模型（如：roberta）使用不同的超参（包括: 随机种子、学习率、dropout等）进行训练，然后将不同超参的模型参数进行融合，可进一步提升单模型的效果。
 
 <div align=center><img src="./pics/model_soup_1.png" style="zoom:100%;" />
 </div>
@@ -349,9 +391,46 @@ python finetune_multimodal.py \
 <div align=center><img src="./pics/model_soup_2.png" style="zoom:100%;" />
 </div>
 
+```bash
+# model soup on text models
+bash run_model_soup_text.sh
+
+# model soup on multimodal models
+bash run_model_soup_multimodal.sh
+```
 
 ### 5.6 优化历史
-- baseline
-- 
+以下为验证集结果：
+- baseline：roberta_base-v1, threshold=0.4, f1=**0.8399**
+- 扩展数据集(输入加上item_pvs和sku_pvs)：roberta_base-v2, threshold=0.3, f1=**0.8483**
+- 构造数据集(按照品类内的出现频率由高到低确定pv的文本位置)：roberta_base-v3, threshold=0.4, f1=**0.8512**
+- 对齐数据集(商品对相同的pv放在前，不同的pv放在后)：roberta_base-v3.4, threshold=0.4, f1=**0.8550**
+- 换用更大模型：roberta_large-v3.4, threshold=0.3, f1=**0.8605**
+- threshold-based模型融合(roberta and roberta+image)：threshold=0.0, f1=**0.8662**
+- 更多模型融合：threshold=0.0, f1=**0.8772**
+- 融合时，根据该品类是否出现在训练集，采用不同阈值：threshold=0.0, f1=**0.8788**
 
-#### 无效优化
+最终在测试集（复赛）中，f1=**0.8800**，排名第4
+
+#### 无效尝试
+- 交互方式：双塔(two tower)均明显差于单塔(one tower)，双塔的最优f1只能在0.80左右
+- 分类方法：matrix projection优于vector similarity，不管使用何种相似度度量方法
+- 文本模型：数据增强，使用训练好的模型对验证集进行预测，预测后的结果加入训练集
+- 文本模型：将pv对按照相对重要性进行排序（非频率）
+- 文本模型：增加辅助任务，对商品对中相同的属性key，判断其属性value是否相同
+- 文本模型：增加品类embedding
+- 文本模型：输入文本中加入品类(cate_name)和行业(industry_name)
+- 文本模型：对属性值进行标准化，如：不同值代表相同含义（xl和大码）则使用统一值
+- 文本模型：数据增强，增加easy负样本（即不同品类的商品对）
+- 文本模型：换用不同的roberta预训练模型文件，如：roberta_large_pair、macbert_large
+- 文本模型：增大max_position_embeddings，训练更长的sequence
+- 文本模型：训练更多的epoch(超过10个)
+- 文本模型：将最后4层的cls输出concat起来作为新的cls output
+- 多模态模型：roberta+image使用基于商品同款finetune后的图像模型生成image embedding
+- 多模态模型：roberta+image在输出层将cls embedding和image embedding concat然后matrix projection算logits
+- 多模态模型：k3m效果一般且代码复杂，预训练时三元组和图像loss的不降低；最终finetune后的f1=0.7635
+- 图像模型：先对原始图片进行object detection，使用框出有效商品后的图片训练模型
+- 图像模型：针对每个品类训练单独的图像模型
+- 模型融合：基于uniform soup的model soup
+
+**PS**：上述“无效优化”指对单模型的效果无提升，各种尝试后的模型虽然效果不如最优单模型，但可以用在model ensemble中，继续提升整体效果。

@@ -12,11 +12,16 @@ from transformers import (
     BertConfig,
     get_linear_schedule_with_warmup
 )
-from src.models import ViT, RobertaModel, CoCaForPretraining, ROBERTA_WEIGHTS_NAME
-from src.data import MultimodalDataset, collate_coca
-from src.utils import logger, BOS_TOKEN
-# from vit_pytorch.extractor import Extractor
-# from transformers.models.roberta.modeling_roberta import RobertaModel
+from src.models import (
+    ViT,
+    RobertaModel,
+    CoCaForPretraining
+)
+from src.data import (
+    MultimodalDataset,
+    collate_coca
+)
+from src.utils import logger, BOS_TOKEN, ROBERTA_WEIGHTS_NAME
 
 
 def get_parser():
