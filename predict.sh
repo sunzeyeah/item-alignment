@@ -4,7 +4,7 @@
 ROOT_DIR="${HOME}/Data"
 DATA_DIR=${ROOT_DIR}
 OUTPUT_DIR=${ROOT_DIR}/output
-PRETRAINED_MODEL_PATH="${ROOT_DIR}/bert"
+PRETRAINED_MODEL_PATH="${ROOT_DIR}/bert/roberta_large"
 
 
 # Roberta_large-v3.4
