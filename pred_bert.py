@@ -101,7 +101,7 @@ def load_model(model, model_dir):
 
 def main():
     # 验证cuda
-    # model_dir = "/root/autodl-tmp/EntityAlignNet/finetunes/bert-old/F1Model/pytorch_model.bin"
+    model_name_or_path = os.path.join(HOME, "Data/bert/bert_base")
     # data_dir = "/root/autodl-tmp/corp/"
     val_file = "item-align-val.json"
     test_file = "item-align-test.json"
@@ -171,7 +171,7 @@ def main():
     torch.manual_seed(seed_val)
     torch.cuda.manual_seed_all(seed_val)
 
-    model = BertAlignModel.from_pretrained("bert-base-chinese")
+    model = BertAlignModel.from_pretrained(model_name_or_path)
     model = load_model(model, MODEL_DIR)
     model.to(device)
     # model.cuda()
