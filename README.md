@@ -448,6 +448,6 @@ docker pull sunzeyeah/python:ccks2022_task9_subtask2
 
 # 镜像中不包含图片数据，因此需要本地挂载图片数据至镜像
 # IMAGE_DIR为图片地址，格式为***/item_images，包括train,valid,test的所有图片
-docker run --rm --gpus 0 -v $IMAGE_DIR:/root/Data/raw/ sunzeyeah/python:ccks2022_task9_subtask2 /bin/bash -c "cd /root/Code/item-alignment; bash train.sh; bash predict.sh"
+docker run --rm --gpus 0 -v $IMAGE_DIR:/root/Data/raw/item_images sunzeyeah/python:ccks2022_task9_subtask2 /bin/bash -c "cd /root/Code/item-alignment; bash train.sh; bash predict.sh"
 
 ```
