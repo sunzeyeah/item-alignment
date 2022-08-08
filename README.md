@@ -436,3 +436,18 @@ bash run_model_soup_multimodal.sh
 - 模型融合：**f1-based** 一般差于 **threshold-based**，且模型数量越多召回结果越少
 
 **PS**：上述“无效优化”指对单模型的效果无提升，各种尝试后的模型虽然效果不如最优单模型，但可以用在model ensemble中，继续提升整体效果。
+
+
+## 5.7 复现结果
+
+- 硬件要求：单卡GPU(显存≥80G)，内存≥90G
+- 运行时长：训练 (train.sh) 48h，预测 (predict.sh) < 8h
+- 复现代码：
+```bash
+docker pull sunzeyeah/python:ccks2022_task9_subtask2 
+
+# 镜像中不包含图片数据，因此需要本地挂载图片数据至镜像
+# IMAGE_DIR为图片地址，格式为***/item_images，包括train,valid,test的所有图片
+docker run --rm --gpus 0 -v $IMAGE_DIR:/root/Data/raw/ sunzeyeah/python:ccks2022_task9_subtask2 /bin/bash -c "cd /root/Code/item-alignment; bash train.sh; bash predict.sh"
+
+```

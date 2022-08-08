@@ -82,7 +82,8 @@ def load_raw_data(args):
             if not line:
                 break
             d = json.loads(line.strip())
-            id2image_name[d['item_id']] = f"{d['item_id']}.jpg" #d['item_image_name']
+            id2image_name[d['item_id']] = d['item_image_name']
+            # id2image_name[d['item_id']] = f"{d['item_id']}.jpg"
     logger.info(f"Finished load item info, size: {len(id2image_name)}")
 
     train_data = []
@@ -98,11 +99,11 @@ def load_raw_data(args):
                 item_label = int(d['item_label'])
                 src_item_id = d['src_item_id']
                 tgt_item_id = d['tgt_item_id']
-                src_image_path = os.path.join(args.data_dir, "item_images_cropped", id2image_name[src_item_id])
+                src_image_path = os.path.join(args.data_dir, "item_images", id2image_name[src_item_id])
                 # src_img = Image.open(src_image_path)
                 # src_img = src_img.convert("RGB")
                 # src_input = transform_train_fn(src_img)
-                tgt_image_path = os.path.join(args.data_dir, "item_images_cropped", id2image_name[tgt_item_id])
+                tgt_image_path = os.path.join(args.data_dir, "item_images", id2image_name[tgt_item_id])
                 # tgt_img = Image.open(tgt_image_path)
                 # tgt_img = tgt_img.convert("RGB")
                 # tgt_input = transform_train_fn(tgt_img)
@@ -152,11 +153,11 @@ def load_raw_data(args):
                 item_label = 0
                 src_item_id = d['src_item_id']
                 tgt_item_id = d['tgt_item_id']
-                src_image_path = os.path.join(args.data_dir, "item_images_cropped", id2image_name[src_item_id])
+                src_image_path = os.path.join(args.data_dir, "item_images", id2image_name[src_item_id])
                 # src_img = Image.open(src_image_path)
                 # src_img = src_img.convert("RGB")
                 # src_input = transform_eval_fn(src_img)
-                tgt_image_path = os.path.join(args.data_dir, "item_images_cropped", id2image_name[tgt_item_id])
+                tgt_image_path = os.path.join(args.data_dir, "item_images", id2image_name[tgt_item_id])
                 # tgt_img = Image.open(tgt_image_path)
                 # tgt_img = tgt_img.convert("RGB")
                 # tgt_input = transform_eval_fn(tgt_img)
