@@ -13,10 +13,10 @@ python finetune_text.py \
   --data_dir $DATA_DIR \
   --output_dir $OUTPUT_DIR \
   --model_name "roberta_large" \
-  --data_version "v3.4-full" \
+  --data_version "v3.4" \
   --pretrained_model_path $PRETRAINED_MODEL_PATH \
   --file_state_dict $FILE_STATE_DICT \
-  --config_file "config/roberta_large.json" \
+  --config_file "src/config/roberta_large.json" \
   --do_pred \
   --interaction_type "one_tower" \
   --classification_method "cls" \
@@ -34,10 +34,10 @@ python finetune_text.py \
   --data_dir $DATA_DIR \
   --output_dir $OUTPUT_DIR \
   --model_name "roberta_large" \
-  --data_version "v3.4-full" \
+  --data_version "v3.4" \
   --pretrained_model_path $PRETRAINED_MODEL_PATH \
   --file_state_dict $FILE_STATE_DICT \
-  --config_file "config/roberta_large.json" \
+  --config_file "src/config/roberta_large.json" \
   --do_pred \
   --interaction_type "one_tower" \
   --classification_method "cls_1,2,3,4_cat" \
@@ -57,10 +57,10 @@ python finetune_text.py \
   --data_dir $DATA_DIR \
   --output_dir $OUTPUT_DIR \
   --model_name "roberta_large" \
-  --data_version "v4-full" \
+  --data_version "v4" \
   --pretrained_model_path $PRETRAINED_MODEL_PATH \
   --file_state_dict $FILE_STATE_DICT \
-  --config_file "config/roberta_large.json" \
+  --config_file "src/config/roberta_large.json" \
   --do_pred \
   --interaction_type "one_tower" \
   --classification_method "cls" \
@@ -78,10 +78,10 @@ python finetune_text.py \
   --data_dir $DATA_DIR \
   --output_dir $OUTPUT_DIR \
   --model_name "pkgm_large" \
-  --data_version "v3.4-full" \
+  --data_version "v3.4" \
   --pretrained_model_path $PRETRAINED_MODEL_PATH \
   --file_state_dict $FILE_STATE_DICT \
-  --config_file "config/pkgm_large.json" \
+  --config_file "src/config/pkgm_large.json" \
   --do_pred \
   --interaction_type "one_tower" \
   --classification_method "cls" \
@@ -99,10 +99,10 @@ python finetune_text.py \
   --data_dir $DATA_DIR \
   --output_dir $OUTPUT_DIR \
   --model_name "textcnn" \
-  --data_version "v3.4-full" \
+  --data_version "v3.4" \
   --pretrained_model_path $PRETRAINED_MODEL_PATH \
   --file_state_dict $FILE_STATE_DICT \
-  --config_file "config/roberta_large.json" \
+  --config_file "src/config/roberta_large.json" \
   --do_pred \
   --interaction_type "two_tower" \
   --classification_method "cls" \
@@ -123,8 +123,8 @@ python finetune_multimodal.py \
   --data_dir $DATA_DIR \
   --output_dir $OUTPUT_DIR \
   --model_name "roberta_image_large" \
-  --data_version "v5-full" \
-  --config_file "config/roberta_image_large.json" \
+  --data_version "v5" \
+  --config_file "src/config/roberta_image_large.json" \
   --pretrained_model_path $PRETRAINED_MODEL_PATH \
   --file_state_dict $FILE_STATE_DICT \
   --do_pred \
@@ -144,8 +144,8 @@ python finetune_image.py \
   --data_dir $DATA_DIR/raw \
   --output_dir $OUTPUT_DIR \
   --model_name "eca_nfnet_l0" \
-  --data_version "v6-full" \
-  --config_file "config/eca_nfnet_l0.json" \
+  --data_version "v6" \
+  --config_file "src/config/eca_nfnet_l0.json" \
   --file_state_dict $FILE_STATE_DICT \
   --do_pred \
   --image_size 1000 \

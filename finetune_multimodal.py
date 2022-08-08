@@ -182,7 +182,7 @@ def main():
     tokenizer.bos_token = BOS_TOKEN
     logger.info(f"vocab size: {tokenizer.vocab_size}")
     # load model
-    config = BertConfig.from_json_file(os.path.join(args.output_dir, args.config_file))
+    config = BertConfig.from_json_file(args.config_file)
     config.interaction_type = args.interaction_type
     config.type_vocab_size = args.type_vocab_size
     config.classification_method = args.classification_method

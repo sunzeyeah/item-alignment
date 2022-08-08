@@ -183,7 +183,7 @@ def main():
     if n_gpu > 0:
         torch.cuda.manual_seed_all(args.seed)
     # load model
-    config = BertConfig.from_json_file(os.path.join(args.output_dir, args.config_file))
+    config = BertConfig.from_json_file(args.config_file)
     config.loss_type = args.loss_type
     config.loss_margin = args.margin
     config.image_size = args.image_size
