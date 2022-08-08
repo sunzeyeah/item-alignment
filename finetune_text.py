@@ -103,7 +103,7 @@ def load_raw_data(args):
     logger.info(f"Finished loading cate2id, size: {len(cate2id)}")
 
     train_data = []
-    with open(os.path.join(args.data_dir, "processed", "finetune_train.tsv"), "r", encoding="utf-8") as r:
+    with open(os.path.join(args.data_dir, "processed", args.data_version, "finetune_train.tsv"), "r", encoding="utf-8") as r:
         while True:
             line = r.readline()
             if not line:
@@ -118,7 +118,7 @@ def load_raw_data(args):
                               tgt_item_id, tgt_cate_id, tgt_title, tgt_pvs))
 
     valid_data = []
-    with open(os.path.join(args.data_dir, "processed", "finetune_test.tsv"), "r", encoding="utf-8") as r:
+    with open(os.path.join(args.data_dir, "processed", args.data_version, "finetune_test.tsv"), "r", encoding="utf-8") as r:
         while True:
             line = r.readline()
             if not line:
@@ -133,7 +133,7 @@ def load_raw_data(args):
                                tgt_item_id, tgt_cate_id, tgt_title, tgt_pvs))
 
     test_data = []
-    with open(os.path.join(args.data_dir, "processed", "finetune_test.tsv"), "r", encoding="utf-8") as r:
+    with open(os.path.join(args.data_dir, "processed", args.data_version, "finetune_test.tsv"), "r", encoding="utf-8") as r:
         while True:
             line = r.readline()
             if not line:

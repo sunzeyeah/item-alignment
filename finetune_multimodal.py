@@ -96,7 +96,7 @@ def get_parser():
 def load_raw_data(args):
     if "roberta_image" in args.model_name:
         train_data = []
-        with open(os.path.join(args.data_dir, "finetune_train.tsv"), "r", encoding="utf-8") as r:
+        with open(os.path.join(args.data_dir, "processed", args.data_version, "finetune_train.tsv"), "r", encoding="utf-8") as r:
             while True:
                 line = r.readline()
                 if not line:
@@ -104,7 +104,7 @@ def load_raw_data(args):
                 train_data.append(line.strip("\n").split("\t"))
 
         valid_data = []
-        with open(os.path.join(args.data_dir, "finetune_test.tsv"), "r", encoding="utf-8") as r:
+        with open(os.path.join(args.data_dir, "processed", args.data_version, "finetune_test.tsv"), "r", encoding="utf-8") as r:
             while True:
                 line = r.readline()
                 if not line:
@@ -112,7 +112,7 @@ def load_raw_data(args):
                 valid_data.append(line.strip("\n").split("\t"))
 
         test_data = []
-        with open(os.path.join(args.data_dir, "finetune_test.tsv"), "r", encoding="utf-8") as r:
+        with open(os.path.join(args.data_dir, "processed", args.data_version, "finetune_test.tsv"), "r", encoding="utf-8") as r:
             while True:
                 line = r.readline()
                 if not line:
@@ -130,7 +130,7 @@ def load_raw_data(args):
         logger.info(f"Finished load item info, size: {len(id2image_name)}")
 
         train_data = []
-        with open(os.path.join(args.data_dir, "processed", "finetune_train.tsv"), "r", encoding="utf-8") as r:
+        with open(os.path.join(args.data_dir, "processed", args.data_version, "finetune_train.tsv"), "r", encoding="utf-8") as r:
             while True:
                 line = r.readline()
                 if not line:
@@ -141,7 +141,7 @@ def load_raw_data(args):
                 train_data.append((item_label, src_item_id, src_title, src_pvs, src_image_path, tgt_item_id, tgt_title, tgt_pvs, tgt_image_path))
 
         valid_data = []
-        with open(os.path.join(args.data_dir, "processed", "finetune_test.tsv"), "r", encoding="utf-8") as r:
+        with open(os.path.join(args.data_dir, "processed", args.data_version, "finetune_test.tsv"), "r", encoding="utf-8") as r:
             while True:
                 line = r.readline()
                 if not line:
@@ -152,7 +152,7 @@ def load_raw_data(args):
                 valid_data.append((item_label, src_item_id, src_title, src_pvs, src_image_path, tgt_item_id, tgt_title, tgt_pvs, tgt_image_path))
 
         test_data = []
-        with open(os.path.join(args.data_dir, "processed", "finetune_test.tsv"), "r", encoding="utf-8") as r:
+        with open(os.path.join(args.data_dir, "processed", args.data_version, "finetune_test.tsv"), "r", encoding="utf-8") as r:
             while True:
                 line = r.readline()
                 if not line:
