@@ -8,7 +8,7 @@ PRETRAINED_MODEL_PATH="${ROOT_DIR}/bert/roberta_large"
 
 
 # Roberta_large-v3.4
-FILE_STATE_DICT="${HOME}/Data/output/roberta_large-v3.4-full-one_tower-cls-NA-ce/text_finetune_epoch-9.bin"
+FILE_STATE_DICT="${HOME}/Data/output/roberta_large-v3.4-one_tower-cls-NA-ce/text_finetune_epoch-9.bin"
 python finetune_text.py \
   --data_dir $DATA_DIR \
   --output_dir $OUTPUT_DIR \
@@ -29,7 +29,7 @@ python finetune_text.py \
   --fp16
 
 # Roberta_large-v3.4-cls_cat_1,2,3,4
-FILE_STATE_DICT="${HOME}/Data/output/roberta_large-v3.4-full-one_tower-cls_1,2,3,4_cat-NA-ce/text_finetune_epoch-9.bin"
+FILE_STATE_DICT="${HOME}/Data/output/roberta_large-v3.4-one_tower-cls_1,2,3,4_cat-NA-ce/text_finetune_epoch-9.bin"
 python finetune_text.py \
   --data_dir $DATA_DIR \
   --output_dir $OUTPUT_DIR \
@@ -52,7 +52,7 @@ python finetune_text.py \
   --fp16
 
 # Roberta_large-v4
-FILE_STATE_DICT="${HOME}/Data/output/roberta_large-v4-full-one_tower-cls-NA-ce/text_finetune_epoch-9.bin"
+FILE_STATE_DICT="${HOME}/Data/output/roberta_large-v4-one_tower-cls-NA-ce/text_finetune_epoch-9.bin"
 python finetune_text.py \
   --data_dir $DATA_DIR \
   --output_dir $OUTPUT_DIR \
@@ -73,7 +73,7 @@ python finetune_text.py \
   --fp16
 
 # pkgm_large-v3.4
-FILE_STATE_DICT="${HOME}/Data/output/pkgm_large-v3.4-full-one_tower-cls-NA-ce/text_finetune_epoch-9.bin"
+FILE_STATE_DICT="${HOME}/Data/output/pkgm_large-v3.4-one_tower-cls-NA-ce/text_finetune_epoch-9.bin"
 python finetune_text.py \
   --data_dir $DATA_DIR \
   --output_dir $OUTPUT_DIR \
@@ -94,7 +94,7 @@ python finetune_text.py \
   --fp16
 
 # textcnn-v3.4
-FILE_STATE_DICT="${HOME}/Data/output/textcnn-v3.4-full-two_tower-cls-NA-ce/text_finetune_epoch-9.bin"
+FILE_STATE_DICT="${HOME}/Data/output/textcnn-v3.4-two_tower-cls-NA-ce/text_finetune_epoch-9.bin"
 python finetune_text.py \
   --data_dir $DATA_DIR \
   --output_dir $OUTPUT_DIR \
@@ -115,10 +115,10 @@ python finetune_text.py \
   --fp16
 
 # bert_base
-python src/bert/encoder.py
+python pred_bert.py
 
 # roberta_image_large-v5
-FILE_STATE_DICT="${HOME}/Data/output/roberta_image_large-v5-full-one_tower-cls-NA-ce/multimodal_finetune_epoch-9.bin"
+FILE_STATE_DICT="${HOME}/Data/output/roberta_image_large-v5-one_tower-cls-begin-ce/multimodal_finetune_epoch-9.bin"
 python finetune_multimodal.py \
   --data_dir $DATA_DIR \
   --output_dir $OUTPUT_DIR \
@@ -139,7 +139,7 @@ python finetune_multimodal.py \
   --fp16
 
 # eca_nfnet_l0-v6
-FILE_STATE_DICT="${HOME}/Data/output/eca_nfnet_l0-v6-full/image_finetune_epoch-9.bin"
+FILE_STATE_DICT="${HOME}/Data/output/eca_nfnet_l0-v6/image_finetune_epoch-9.bin"
 python finetune_image.py \
   --data_dir $DATA_DIR/raw \
   --output_dir $OUTPUT_DIR \

@@ -24,10 +24,10 @@ import random
 import transformers
 from transformers import BertTokenizer
 
-from .log import LOGGER
-from .data_utils import read_data, join_data, get_examples, show_pairs, encode, get_dataloader
-from .run_train import evaluate
-from .model import BertAlignModel
+from src.bert.log import LOGGER
+from src.bert.data_utils import read_data, join_data, get_examples, show_pairs, encode, get_dataloader
+# from .finetune_bert import evaluate
+from src.bert.model import BertAlignModel
 
 HOME = os.path.expanduser("~")
 # HOME = os.getenv("HOME")
@@ -188,13 +188,13 @@ def main():
     for p in params[-4:]:
         LOGGER.info("{:<55} {:>12}".format(p[0], str(tuple(p[1].size()))))
 
-    LOGGER.info("====== Evaluate the current model ======")
-    F1, pre, recall, acc, cls_F1, cls_pre, cls_recall, cls_acc, eval_loss = evaluate(model, eval_dataloader, device, -1, -1)
+    # LOGGER.info("====== Evaluate the current model ======")
+    # F1, pre, recall, acc, cls_F1, cls_pre, cls_recall, cls_acc, eval_loss = evaluate(model, eval_dataloader, device, -1, -1)
 
     # acc, pre, recall, F1 = evaluate(model, eval_dataloader, device)
-    LOGGER.info(
-        "* Accuracy: {0:>5.4}, Precision: {1:>5.4}, Recall: {2:>5.4}, F1: {3:.>5.4} ^_^".format(
-            acc, pre, recall, F1))
+    # LOGGER.info(
+    #     "* Accuracy: {0:>5.4}, Precision: {1:>5.4}, Recall: {2:>5.4}, F1: {3:.>5.4} ^_^".format(
+    #         acc, pre, recall, F1))
 
     # ========================================
     #               Encode

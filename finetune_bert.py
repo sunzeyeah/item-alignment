@@ -22,9 +22,9 @@ import logging
 import transformers
 from transformers import AdamW, BertConfig, get_linear_schedule_with_warmup, BertTokenizer
 
-from .data_utils import join_data, get_examples, get_dataloader, show, show_pairs, encode
-from .model import BertAlignModel
-from .log import LOGGER
+from src.bert.data_utils import join_data, get_examples, get_dataloader, show, show_pairs, encode
+from src.bert.model import BertAlignModel
+from src.bert.log import LOGGER
 
 HOME = os.path.expanduser("~")
 # HOME = os.getenv("HOME")
@@ -294,7 +294,7 @@ def main():
 
     # =================== 模型参数 ===================
     #     model_name_or_path = 'bert-base-chinese'
-    model_name_or_path = os.path.join(HOME, "Data/output/bert/bert_base")
+    model_name_or_path = os.path.join(HOME, "Data/bert/bert_base")
 #     model_name_or_path = '/root/autodl-tmp/EntityAlignNet/pretrain/PretrainBert'
     restore_dir = ""
 

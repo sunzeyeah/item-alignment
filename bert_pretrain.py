@@ -20,7 +20,7 @@ from tensorboardX import SummaryWriter
 from torch.utils.data import TensorDataset, RandomSampler, DataLoader
 from transformers import get_linear_schedule_with_warmup
 
-from .log import LOGGER
+from src.bert.log import LOGGER
 
 
 if torch.cuda.is_available():
@@ -471,7 +471,7 @@ def save_model(tokenizer, model, output_dir):
 
 def main():
     # data_dir = "/Users/mengqy/competitions/commodity-alignment/corp"
-    base_dir = "./"
+    base_dir = "src/bert/"
     data_dir = "/root/autodl-tmp/pretrain-corp"
     train_file = "pretrain_train.jsonl"
     valid_file = "pretrain_valid.jsonl"

@@ -104,7 +104,7 @@ python finetune_text.py \
   --fp16
 
 # bert_base
-python src/bert/run_train.py
+python finetune_bert.py
 
 # roberta_image_large-v5
 python finetune_multimodal.py \

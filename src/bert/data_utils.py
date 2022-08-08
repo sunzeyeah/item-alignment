@@ -17,7 +17,7 @@ import numpy as np
 from random import shuffle
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 
-from bert.log import LOGGER
+from .log import LOGGER
 
 
 def read_data(data_dir, file, pair_names):
