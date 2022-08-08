@@ -61,7 +61,7 @@ def get_parser():
     parser.add_argument("--start_epoch", default=0, type=int, help="starting training epoch")
     parser.add_argument("--num_train_epochs", default=10, type=int, help="Total number of training epochs to perform.")
     parser.add_argument("--weight_decay", default=1e-5, type=float, help="weight decay")
-    parser.add_argument("--log_steps", default=None, type=int, help="every n steps, log training process")
+    parser.add_argument("--log_steps", default=10, type=int, help="every n steps, log training process")
     parser.add_argument("--pretrained_model_path", default=None, type=str, help="pretrained model path, including roberta and pkgm")
     parser.add_argument("--file_state_dict", default=None, type=str, help="finetuned model path")
     parser.add_argument("--type_vocab_size", default=2, type=int, help="Number of unique segment ids")
@@ -70,7 +70,7 @@ def get_parser():
     parser.add_argument("--similarity_measure", default="NA", type=str,
                         help="向量相似度量: cosine, inner_product, l1 (l1 euclidean distance), l2 (l2 euclidean distance)",)
     # optimization
-    parser.add_argument("--warmup_proportion", default=0.1, type=float, help="Proportion of training to perform linear learning rate warmup for. "
+    parser.add_argument("--warmup_proportion", default=0.3, type=float, help="Proportion of training to perform linear learning rate warmup for. "
                                                                              "E.g., 0.1 = 10%% of training.")
     parser.add_argument("--gradient_accumulation_steps", default=1, type=int, help="Number of updates steps to accumualte before performing a backward/update pass.")
     parser.add_argument("--adam_epsilon", default=1e-8, type=float, help="Epsilon for Adam optimizer.")

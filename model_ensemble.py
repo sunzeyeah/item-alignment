@@ -23,7 +23,7 @@ models_and_thresholds = [
     ("eca_nfnet_l0-v6-full", 0.5, 0.7777),
     ("pkgm_large-v3.4-full-one_tower-cls-NA-ce", 0.4, 0.8096),
     #     ("item_alignment-k3m_base", 0.6, 0.7635),
-    ("bert_base-two_tower-cls-ce", 0.3, 0.8510),
+    ("bert_base-one_tower-cls-NA-ce", 0.3, 0.8510),
     #     ("bert_adversarial-two_tower-cls-ce", 0.3, 0.8477),
     #     ("fasttext", 0.5, 0.7024),
     ("textcnn-v3.4-full-two_tower-cls-NA-ce", 0.6, 0.7703),
@@ -36,14 +36,14 @@ models_and_thresholds_in = [
     #     ("roberta_base-v3.4-one_tower-cls-ce", 0.4),
     ("roberta_large-v3.4-full-one_tower-cls-NA-ce", 0.3, 0.8610),
     #     ("roberta_large-v3.6-full-one_tower-cls-NA-ce", 0.4, 0.8478),
-    ("roberta_large-v3.4-one_tower-cls_1,2,3,4_cat-ce", 0.4, 0.8600),
+    ("roberta_large-v3.4-full-one_tower-cls_1,2,3,4_cat-NA-ce", 0.4, 0.8600),
     ("roberta_large-v4-full-one_tower-cls-NA-ce", 0.3, 0.8612),
     ("roberta_image_large-v5-full-one_tower-cls-begin-ce", 0.4, 0.8582),
     #     ("roberta_image_large-v5.1-one_tower-cls-begin-ce", 0.4, 0.8446),
     ("eca_nfnet_l0-v6-full", 0.4, 0.7777),
     ("pkgm_large-v3.4-full-one_tower-cls-NA-ce", 0.4, 0.8096),
     #     ("item_alignment-k3m_base", 0.6, 0.7635),
-    ("bert_base-two_tower-cls-ce", 0.3, 0.8510),
+    ("bert_base-one_tower-cls-NA-ce", 0.3, 0.8510),
     #     ("bert_adversarial-two_tower-cls-ce", 0.3, 0.8477),
     #     ("fasttext", 0.5, 0.7024),
     ("textcnn-v3.4-full-two_tower-cls-NA-ce", 0.6, 0.7703),
@@ -55,14 +55,14 @@ models_and_thresholds_in = [
 models_and_thresholds_not_in = [
     ("roberta_large-v3.4-full-one_tower-cls-NA-ce", 0.4, 0.8610),
     #     ("roberta_large-v3.6-full-one_tower-cls-NA-ce", 0.4, 0.8583),
-    ("roberta_large-v3.4-one_tower-cls_1,2,3,4_cat-ce", 0.4, 0.8600),
+    ("roberta_large-v3.4-full-one_tower-cls_1,2,3,4_cat-NA-ce", 0.4, 0.8600),
     ("roberta_large-v4-full-one_tower-cls-NA-ce", 0.5, 0.8612),
     ("roberta_image_large-v5-full-one_tower-cls-begin-ce", 0.4, 0.8582),
     #     ("roberta_image_large-v5.1-one_tower-cls-begin-ce", 0.4, 0.8446),
     #     ("eca_nfnet_l0-v6-full", 0.5, 0.7783),
     ("pkgm_large-v3.4-full-one_tower-cls-NA-ce", 0.5, 0.8096),
     #     ("item_alignment-k3m_base", 0.6, 0.7635),
-    ("bert_base-two_tower-cls-ce", 0.4, 0.8510),
+    ("bert_base-one_tower-cls-NA-ce", 0.4, 0.8510),
     #     ("bert_adversarial-two_tower-cls-ce", 0.3, 0.8477),
     #     ("fasttext", 0.5, 0.7024),
     ("textcnn-v3.4-full-two_tower-cls-NA-ce", 0.6, 0.7703),
@@ -248,7 +248,7 @@ def main():
     model_dir = os.path.join(args.data_dir, "output", model)
     if not os.path.isdir(model_dir):
         os.mkdir(model_dir)
-    f = os.path.join(model_dir, f"deepAI_result_threshold={threshold}.jsonl")
+    f = os.path.join(model_dir, f"deepAI_result.jsonl")
     with open(f, "w", encoding="utf-8") as w:
         for dd in lines_ensemble:
             w.write(json.dumps(dd)+"\n")

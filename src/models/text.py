@@ -1500,12 +1500,12 @@ class TextCNN(nn.Module):
         filter_sizes = [int(i) for i in config.filter_sizes.split(",")] # [1, 2, 3, 5]
         # non-static channel
         self.embedding1 = RobertaEmbeddings(config)
-        self.embedding1.load_state_dict(embedding_state_dict, strict=False)
+        self.embedding1.load_state_dict(embedding_state_dict)
         # static channel
         self.embedding2 = RobertaEmbeddings(config)
-        self.embedding2.load_state_dict(embedding_state_dict, strict=False)
-        # for key, value in dict(self.embedding2.named_parameters()).items():
-        #     value.requires_grad = False
+        self.embedding2.load_state_dict(embedding_state_dict)
+        for key, value in dict(self.embedding2.named_parameters()).items():
+            value.requires_grad = False
         # convolutional layers
         self.convs1 = nn.ModuleList([nn.Conv2d(2, config.num_filters, (K, config.hidden_size)) for K in filter_sizes])
         # dropout layer

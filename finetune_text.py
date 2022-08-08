@@ -65,7 +65,7 @@ def get_parser():
     parser.add_argument("--parameters_to_freeze", default=None, type=str, help="file that contains parameters that do not require gradient descend")
     parser.add_argument("--threshold", default=0.5, type=float, help="default threshold for item embedding score for prediction")
     # optimization
-    parser.add_argument("--warmup_proportion", default=0.1, type=float, help="Proportion of training to perform linear learning rate warmup for. "
+    parser.add_argument("--warmup_proportion", default=0.3, type=float, help="Proportion of training to perform linear learning rate warmup for. "
                                                                              "E.g., 0.1 = 10%% of training.")
     parser.add_argument("--gradient_accumulation_steps", default=1, type=int, help="Number of updates steps to accumualte before performing a backward/update pass.")
     parser.add_argument("--adam_epsilon", default=1e-8, type=float, help="Epsilon for Adam optimizer.")
@@ -76,7 +76,7 @@ def get_parser():
     parser.add_argument("--max_seq_len", default=None, type=int, help="max length for one item title")
     parser.add_argument("--max_seq_len_pv", default=None, type=int, help="max length of pvs, 'None' - do not add pvs as text")
     parser.add_argument("--max_position_embeddings", default=512, type=int, help="max position embedding length")
-    parser.add_argument("--max_pvs", default=20, type=int, help="max number of pairs for one item")
+    parser.add_argument("--max_pvs", default=30, type=int, help="max number of pairs for one item")
     parser.add_argument("--cls_layers", default="1", type=str, help="which layers of cls used for classification")
     parser.add_argument("--cls_pool", default="cat", type=str, help="ways to pool multiple layers of cls used for classification")
     parser.add_argument("--auxiliary_task", action="store_true", help="whether to include auxiliary task. The task is additionally comparing pv pairs of src and tgt item."
@@ -584,7 +584,7 @@ def main():
             # Model saving per epoch
             logger.info(f"[Epoch-{epoch}] saving model")
             model_to_save = (model.module if hasattr(model, "module") else model)  # Only save the model it-self
-            output_model_file = os.path.join(output_model_path, f"pkgm_finetune_epoch-{epoch}.bin")
+            output_model_file = os.path.join(output_model_path, f"text_finetune_epoch-{epoch}.bin")
             torch.save(model_to_save.state_dict(), output_model_file)
 
     elif args.do_eval:

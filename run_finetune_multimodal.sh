@@ -37,8 +37,8 @@ python $MAIN \
   --ensemble $ENSEMBLE \
   --loss_type $LOSS_TYPE \
   --max_seq_len 50 \
-  --max_seq_len_pv 305 \
-  --image_hidden_size 2304 \
+  --max_seq_len_pv 205 \
+  --image_hidden_size 3072 \
   --warmup_proportion 0.3 \
   --train_batch_size $TRAIN_BATCH_SIZE \
   --eval_batch_size $EVAL_BATCH_SIZE \
