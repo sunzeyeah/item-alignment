@@ -84,7 +84,7 @@ python finetune_text.py \
   --model_name "textcnn" \
   --data_version "v1" \
   --pretrained_model_path $PRETRAINED_MODEL_PATH \
-  --config_file "roberta_base.json" \
+  --config_file "src/config/roberta_base.json" \
   --do_train \
   --do_eval \
   --interaction_type "two_tower" \
@@ -117,7 +117,7 @@ python finetune_text.py \
   --model_name "roberta_large" \
   --data_version "v1" \
   --pretrained_model_path $PRETRAINED_MODEL_PATH \
-  --config_file "roberta_large.json" \
+  --config_file "src/config/roberta_large.json" \
   --do_train \
   --do_eval \
   --interaction_type "one_tower" \
@@ -157,7 +157,7 @@ python finetune_text.py \
   --model_name "pkgm_large" \
   --data_version "v1" \
   --pretrained_model_path $PRETRAINED_MODEL_PATH \
-  --config_file "pkgm_large.json" \
+  --config_file "src/config/pkgm_large.json" \
   --do_train \
   --do_eval \
   --interaction_type "one_tower" \
@@ -190,7 +190,7 @@ python finetune_image.py \
   --output_dir $OUTPUT_DIR \
   --model_name "resnetv2_50" \
   --data_version "v1" \
-  --config_file "resnetv2_50.json" \
+  --config_file "src/config/resnetv2_50.json" \
   --do_train \
   --do_eval \
   --image_size 800 \
@@ -215,7 +215,7 @@ python finetune_image.py \
   --output_dir $OUTPUT_DIR \
   --model_name "eca_nfnet_l0" \
   --data_version "v1" \
-  --config_file "eca_nfnet_l0.json" \
+  --config_file "src/config/eca_nfnet_l0.json" \
   --do_train \
   --do_eval \
   --image_size 800 \
@@ -243,7 +243,7 @@ python finetune_image.py \
   --output_dir $OUTPUT_DIR \
   --model_name "vit_large_patch16_384" \
   --data_version "v1" \
-  --config_file "vit_large_patch16_384.json" \
+  --config_file "src/config/vit_large_patch16_384.json" \
   --do_train \
   --do_eval \
   --image_size 384 \
@@ -272,7 +272,7 @@ python finetune_graph.py \
   --model_name "gcn" \
   --data_version "v1" \
   --pretrained_model_path $PRETRAINED_MODEL_PATH \
-  --config_file "gcn.json" \
+  --config_file "src/config/gcn.json" \
   --do_train \
   --do_eval \
   --interaction_type "two_tower" \
@@ -308,7 +308,7 @@ python finetune_multimodal.py \
   --model_name "roberta_image_large" \
   --data_version "v1" \
   --pretrained_model_path $PRETRAINED_MODEL_PATH \
-  --config_file "roberta_image_large.json" \
+  --config_file "src/config/roberta_image_large.json" \
   --do_train \
   --do_eval \
   --interaction_type "one_tower" \
@@ -337,7 +337,7 @@ python finetune_multimodal.py \
   --model_name "coca_large" \
   --data_version "v1" \
   --pretrained_model_path $PRETRAINED_MODEL_PATH \
-  --config_file "coca_large.json" \
+  --config_file "src/config/coca_large.json" \
   --image_model_name "vit_large_patch16_384" \
   --do_train \
   --do_eval \
