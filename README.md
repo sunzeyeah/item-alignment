@@ -440,8 +440,8 @@ bash run_model_soup_multimodal.sh
 
 ## 5.7 复现结果
 
-- 硬件要求：单卡GPU(显存≥80G)，内存≥90G
-- 运行时长：训练 (train.sh) 48h，预测 (predict.sh) < 8h
+- 硬件要求：单机单卡，显存≥80G，内存≥90G
+- 运行时长：训练 (train.sh) 58h左右，预测 (predict.sh) < 8h
 - 复现代码：
 ```bash
 docker pull sunzeyeah/python:ccks2022_task9_subtask2 
