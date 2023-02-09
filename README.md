@@ -23,8 +23,8 @@
 
 - 下载地址：
 ~~~
-链接: https://pan.baidu.com/s/16nHd6MkB-xZV8RVEZjYDfw 
-提取码: vt87
+链接: https://pan.baidu.com/s/1HOoitPdgK8SB8ktE6qt7EQ
+提取码: xke3 
 ~~~
 
 - item_train_info.jsonl：item的基础信息文件，每行是一个json串，具体字段内容如表所示
